@@ -1,3 +1,6 @@
+from asyncio import exceptions
+from cmath import exp
+from multiprocessing.connection import wait
 from django.test import LiveServerTestCase
 import unittest
 from selenium import webdriver
@@ -30,10 +33,13 @@ class HomepageTests(LiveServerTestCase):
         self.assertIn(today_text, header_text)
 
         # She sees a button to add a new entry.
+        button_text = self.browser.find_element_by_tag_name("button").text
+        self.assertEqual(button_text, "Submit Time")
 
-        # A box appears that asks for a username (text)
-
-        # The box also contains 3 time dropdowns for hours, minutes, and seconds.
+        # A form appears and she enters a username and time (hours, minutes, seconds).
+        button_text = self.browser.find_element_by_tag_name("form")
+        button_text.click()
+        self.browser.find_element_by_tag_name("form")
 
         # She clicks on the submit button and is redirected back to the page.
 
