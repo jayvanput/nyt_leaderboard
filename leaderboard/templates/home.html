@@ -5,24 +5,33 @@
 
 <head>
     <title>NYTimes Crossword Leaderboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'leaderboard/home.css' %}">
 </head>
 
 <body>
     <h1>Leaderboard</h1>
-    <h2>{% now "l, F j Y" %}</h2>
-    <button id="submit_time">Submit Time</button>
-    <form action="" id="form" class="hidden">
-        <label for="form__username">Username:</label>
-        <input type="text" name="username">
-        <label for="form__hours">Hours:</label>
-        <input type="number" name="form__hours" min=0 max=99>
-        <label for="form__minutes">Minutes:</label>
-        <input type="number" name="form__minutes" min=0 max=99>
-        <label for="form__seconds">Seconds:</label>
-        <input type="text" name="form__seconds" min=0 max=99>
-        <input type="submit">
-    </form>
+    <h2>{% now "l, F d Y" %}</h2>
+    <button id="show_form">Submit Time</button>
+    <div class="container">
+        <ol>
+            <li>test</li>
+        </ol>
+    </div>
+    <div class="container">
+        <form id="time_form" action="">
+            <label for="username">Username</label>
+            <input type="text" id="username">
+            <label for="hours">Hours</label>
+            <input type="number" id="hours">
+            <label for="minutes">Minutes</label>
+            <input type="number" id="minutes">
+            <label for="seconds">Seconds</label>
+            <input type="number" id="seconds">
+            <button id="submit_new_time" type="button" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
     <script src="{% static 'leaderboard/home.js' %}"></script>
 </body>
 

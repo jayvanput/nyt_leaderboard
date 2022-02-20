@@ -1,8 +1,31 @@
-h1 {
-    color: red;
-}
-
-.hidden {
+/* 
+Grayscale palette (increasing darkness): 
+#EEEEEE
+#CCCCCC
+#999999
+#666666
+#333333
+#000000 
+*/
+form {
     display: none;
+    box-sizing: border-box;
+    width: 300px;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    padding: 30px;
+    /* DISPLAY */
+    flex-direction: column;
+    /* POSITION */
+    margin: auto;
+    /* COLOR */
+    background-color: white;
 }
 
+form input, form label {
+    margin: 2%
+}
+
+form.shown {
+    display:flex;
+}
