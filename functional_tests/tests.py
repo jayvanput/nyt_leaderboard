@@ -1,6 +1,7 @@
 from asyncio import exceptions
 from cmath import exp
 from multiprocessing.connection import wait
+from time import sleep
 from django.test import LiveServerTestCase
 import unittest
 from selenium import webdriver
@@ -33,17 +34,25 @@ class HomepageTests(LiveServerTestCase):
         self.assertIn(today_text, header_text)
 
         # She sees a button to add a new entry.
-        button_text = self.browser.find_element_by_tag_name("button").text
+        button_text = self.browser.find_element_by_id("show_form").text
         self.assertEqual(button_text, "Submit Time")
 
         # A form appears and she enters a username and time (hours, minutes, seconds).
-        button_text = self.browser.find_element_by_tag_name("form")
-        button_text.click()
-        self.browser.find_element_by_tag_name("form")
+        username_field = self.browser.find_element_by_id("username")
+        username_field.send_keys("alice1")
+        hour_field = self.browser.find_element_by_id("hours")
+        hour_field.send_keys("0")
+        minute_field = self.browser.find_element_by_id("minutes")
+        minute_field.send_keys("20")
+        second_field = self.browser.find_element_by_id("seconds")
+        second_field.send_keys("5\n")
 
         # She clicks on the submit button and is redirected back to the page.
 
         # She can see her time has now been added to the leaderboard.
+        leaderboard = self.browser.find_element_by_id("leaderboard")
+        rows = leaderboard.find_elements_by_tag_name("li")
+        self.assertIn("alice1 | 1205", [row.text for row in rows])
 
         # Satisfied with her time today, she closes the site.
         self.fail("finish the test")

@@ -13,23 +13,26 @@
 <body>
     <h1>Leaderboard</h1>
     <h2>{% now "l, F d Y" %}</h2>
-    <button id="show_form">Submit Time</button>
+    <button id="show_form" class="btn btn-primary">Submit Time</button>
     <div class="container">
-        <ol>
-            <li>test</li>
+        <ol id="leaderboard">
+            {% for entry in entries %}
+            <li>{{ entry.username }} | {{ entry.solve_time }}</li>
+            {% endfor %}
         </ol>
     </div>
     <div class="container">
-        <form id="time_form" action="">
+        <form id="time_form" method="POST" action='{% url "post_time" %}'>
+            {% csrf_token %}
             <label for="username">Username</label>
-            <input type="text" id="username">
+            <input type="text" id="username" name="username">
             <label for="hours">Hours</label>
-            <input type="number" id="hours">
+            <input type="number" id="hours" name="hours">
             <label for="minutes">Minutes</label>
-            <input type="number" id="minutes">
+            <input type="number" id="minutes" name="minutes">
             <label for="seconds">Seconds</label>
-            <input type="number" id="seconds">
-            <button id="submit_new_time" type="button" class="btn btn-primary">Submit</button>
+            <input type="number" id="seconds" name="seconds">
+            <button id="submit_new_time" type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
     <script src="{% static 'leaderboard/home.js' %}"></script>
