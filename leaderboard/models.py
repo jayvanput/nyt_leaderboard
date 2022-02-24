@@ -5,8 +5,7 @@ from django.db import models
 
 class Entry(models.Model):
 
-    username = models.TextField()
+    username = models.CharField(max_length=20)
     hours = models.IntegerField(default=0)
     minutes = models.IntegerField(default=0)
     seconds = models.IntegerField(default=0)
-    solve_time = models.IntegerField()

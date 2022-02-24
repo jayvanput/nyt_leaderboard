@@ -28,22 +28,22 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col">
-                    <label class="form_label" for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <label class="form_label" for="username">H</label>
-                    <input type="text" id="hours" name="hours" class="form-control" min="0" value="0">
+                    <label for="{{ form.hours.id_for_label }}">H</label>
+                    {{ form.hours }}
                 </div>
                 <div class="col">
-                    <label class="form_label" id="minutes_label" for="username">M</label>
-                    <input type="text" id="minutes" name="minutes" class="form-control" min="0" value="0">
+                    <label for="{{ form.minutes.id_for_label }}">M</label>
+                    {{ form.minutes }}
                 </div>
                 <div class="col">
-                    <label class="form_label" id="seconds_label" for="username">S</label>
-                    <input type="text" id="seconds" name="seconds" class="form-control" min="0" value="0">
+                    <label for="{{ form.seconds.id_for_label }}">S</label>
+                    {{ form.seconds}}
                 </div>
             </div>
             <div class="row">

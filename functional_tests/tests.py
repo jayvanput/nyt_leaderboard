@@ -38,13 +38,13 @@ class HomepageTests(LiveServerTestCase):
         self.assertEqual(button_text, "Submit Time")
 
         # A form appears and she enters a username and time (hours, minutes, seconds).
-        username_field = self.browser.find_element_by_id("username")
+        username_field = self.browser.find_element_by_id("id_username")
         username_field.send_keys("alice1")
-        hour_field = self.browser.find_element_by_id("hours")
+        hour_field = self.browser.find_element_by_id("id_hours")
         hour_field.send_keys("0")
-        minute_field = self.browser.find_element_by_id("minutes")
+        minute_field = self.browser.find_element_by_id("id_minutes")
         minute_field.send_keys("20")
-        second_field = self.browser.find_element_by_id("seconds")
+        second_field = self.browser.find_element_by_id("id_seconds")
         second_field.send_keys("5\n")
 
         # She clicks on the submit button and is redirected back to the page.
