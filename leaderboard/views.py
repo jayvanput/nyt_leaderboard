@@ -18,4 +18,5 @@ def post_time(request):
         solve_time=int(request.POST["hours"])*3600 +
         int(request.POST["minutes"])*60 + int(request.POST["seconds"])
     )
+    entry.save()
     return redirect("/")

@@ -55,4 +55,3 @@ class HomepageTests(LiveServerTestCase):
         self.assertIn("alice1 | 1205", [row.text for row in rows])
 
         # Satisfied with her time today, she closes the site.
-        self.fail("finish the test")
