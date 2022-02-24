@@ -13,10 +13,16 @@ def home_page(request):
 
 
 def post_time(request):
+    hours = int(request.POST["hours"])
+    minutes = int(request.POST["minutes"])
+    seconds = int(request.POST["seconds"])
+
     entry = Entry.objects.create(
         username=request.POST["username"],
-        solve_time=int(request.POST["hours"])*3600 +
-        int(request.POST["minutes"])*60 + int(request.POST["seconds"])
+        hours=hours,
+        minutes=minutes,
+        seconds=seconds,
+        solve_time=hours*3600 + minutes*60 + seconds
     )
     entry.save()
     return redirect("/")

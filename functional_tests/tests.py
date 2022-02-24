@@ -52,6 +52,6 @@ class HomepageTests(LiveServerTestCase):
         # She can see her time has now been added to the leaderboard.
         leaderboard = self.browser.find_element_by_id("leaderboard")
         rows = leaderboard.find_elements_by_tag_name("li")
-        self.assertIn("alice1 | 1205", [row.text for row in rows])
+        self.assertIn("alice1 | 00:20:05", [row.text for row in rows])
 
         # Satisfied with her time today, she closes the site.

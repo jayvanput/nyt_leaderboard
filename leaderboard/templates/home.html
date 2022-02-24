@@ -17,7 +17,9 @@
     <div class="container">
         <ol id="leaderboard">
             {% for entry in entries %}
-            <li>{{ entry.username }} | {{ entry.solve_time }}</li>
+            <li>{{entry.username}} |
+                {{entry.hours|stringformat:"02d"}}:{{entry.minutes|stringformat:"02d"}}:{{entry.seconds|stringformat:"02d"}}
+            </li>
             {% endfor %}
         </ol>
     </div>
