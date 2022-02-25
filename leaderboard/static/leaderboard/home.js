@@ -1,7 +1,19 @@
-let button = document.getElementById("show_form")
+// Button to open modal form
+let entry_button = document.getElementById("show_form")
 let form = document.getElementById("time_form")
 
-button.addEventListener("click", () => {
+function toggle_form() {
     form.classList.toggle("shown")
     document.body.classList.toggle("shown")
+}
+
+entry_button.addEventListener("click", () => {
+    toggle_form()
+})
+
+// X button to close form.
+let close_button = document.getElementById("form__close")
+
+close_button.addEventListener("click", () => {
+    toggle_form()
 })
