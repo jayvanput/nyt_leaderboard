@@ -35,3 +35,12 @@ form.shown {
 body.shown{
     background-color: #999999;
 }
+
+.seperator{
+    display:flex;
+    flex-wrap: wrap-reverse;
+}
+
+.seperator span{
+    height: 50%;
+}
