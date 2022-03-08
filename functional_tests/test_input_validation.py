@@ -14,8 +14,10 @@ class HomepageTests(LiveServerTestCase):
         self.browser.quit()
 
     def test_cannot_add_empty_entry_times(self):
+
         # Alice goes to the home page and starts to fill out an entry.
-        # She inputs a username but then hits submit without any times.
+
+        # She inputs a username but then hits submit.
 
         # The page refreshes and there is now an error message at the bottom of the form
         # with the time cells highlighted red.
