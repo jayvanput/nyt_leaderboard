@@ -13,7 +13,8 @@ from datetime import date
 class HomepageTests(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Firefox(
+            executable_path="D:\\Projects\\NYT Leaderboard Website\\geckodriver.exe")
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
