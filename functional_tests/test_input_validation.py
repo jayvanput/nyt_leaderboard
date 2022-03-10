@@ -20,12 +20,15 @@ class HomepageTests(LiveServerTestCase):
 
         # She inputs a username but then hits submit with inputting any times.
         username_field = self.browser.find_element_by_id("id_username")
-        username_field.send_keys("alice1\n")
+        username_field.send_keys("alice1")
+
+        submit_button = self.browser.find_element_by_id("form__submit")
+        submit_button.click()
 
         # The page refreshes and there is now an error message at the bottom of the form
         #
         error = self.browser.find_element_by_id("form__error")
-        self.assertEqual(error.text, "Please insert a valid time")
+        self.assertEqual(error.text, "Invalid time")
 
         # She then correctly inputs her username with a solve time and hits submit.
 
