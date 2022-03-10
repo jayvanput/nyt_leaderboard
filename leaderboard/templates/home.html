@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'leaderboard/home.css' %}">
 </head>
 
-<body id="body">
+<body id="body" {% if form.errors %} class="shown" {% endif %}>
     <h1>Leaderboard</h1>
     <h2>{% now "l, F d Y" %}</h2>
     <button id="show_form" class="btn btn-primary">Submit Time</button>
@@ -22,43 +22,64 @@
         </ol>
     </div>
     <div class="container">
-        <form id="time_form" method="POST" action='{% url "post_time" %}'>
+        <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
             {% csrf_token %}
             <div class="row">
                 <div class="col">
-                    <button id="form__close" class="btn btn-outline-danger btn-sm float-right">X</button>
+                    <div type="reset" id="form__close" class="btn btn-outline-danger btn-sm float-right">X</div>
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col form__input">
                     <label for="{{ form.username.id_for_label }}">Username</label>
                     {{ form.username }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row" id="form__time">
+                <div class="col form__input">
                     <label for="{{ form.hours.id_for_label }}">H</label>
                     {{ form.hours }}
                 </div>
                 <div class="seperator"><span>:</span></div>
-                <div class="col">
+                <div class="col form__input">
                     <label for="{{ form.minutes.id_for_label }}">M</label>
                     {{ form.minutes }}
                 </div>
                 <div class="seperator"><span>:</span></div>
-                <div class="col">
+                <div class="col form__input">
                     <label for="{{ form.seconds.id_for_label }}">S</label>
-                    {{ form.seconds}}
+                    {{ form.seconds }}
                 </div>
             </div>
             <div class="row">
+                <div class="col">
+                    <div>
+                        {% for error in form.non_field_errors %}
+                        <div id="form__error">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 <div class="col">
                     <button id="form__submit" class="btn btn-primary float-right" type="submit">Submit</button>
                 </div>
             </div>
         </form>
     </div>
+    <a href="https://www.google.com">test</a>
     <script src="{% static 'leaderboard/home.js' %}"></script>
+    {% if form.errors %}
+    <script>
+        let time_inputs = document.getElementsByClassName("time_input")
+        let time_inputs_lst = [...time_inputs]
+        time_inputs_lst.forEach(element => {
+            element.style.border = "1px solid red"
+        });
+
+    </script>
+    {% endif %}
+
 </body>
 
 </html>

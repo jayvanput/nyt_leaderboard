@@ -16,11 +16,16 @@ class HomepageTests(LiveServerTestCase):
     def test_cannot_add_empty_entry_times(self):
 
         # Alice goes to the home page and starts to fill out an entry.
+        self.browser.get(self.live_server_url)
 
-        # She inputs a username but then hits submit.
+        # She inputs a username but then hits submit with inputting any times.
+        username_field = self.browser.find_element_by_id("id_username")
+        username_field.send_keys("alice1\n")
 
         # The page refreshes and there is now an error message at the bottom of the form
-        # with the time cells highlighted red.
+        #
+        error = self.browser.find_element_by_id("form__error")
+        self.assertEqual(error.text, "Please insert a valid time")
 
         # She then correctly inputs her username with a solve time and hits submit.
 

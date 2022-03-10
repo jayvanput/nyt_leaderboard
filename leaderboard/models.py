@@ -6,4 +6,6 @@ from django.db import models
 class Entry(models.Model):
 
     username = models.TextField()
-    solve_time = models.IntegerField(default=0)
+    hours = models.IntegerField(default=0)
+    minutes = models.IntegerField(default=0)
+    seconds = models.IntegerField(default=0)

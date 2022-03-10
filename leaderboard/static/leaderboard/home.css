@@ -13,7 +13,7 @@ form {
     height: 305px;
     border: 1px solid #999999;
     border-radius: 5px;
-    padding: 30px;
+    padding: 20px;
     /* DISPLAY */
     display: none;
     flex-direction: column;
@@ -43,4 +43,8 @@ body.shown{
 
 .seperator span{
     height: 50%;
+}
+
+#form__error{
+    color: red;
 }
