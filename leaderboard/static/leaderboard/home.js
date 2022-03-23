@@ -15,5 +15,6 @@ entry_button.addEventListener("click", () => {
 let close_button = document.getElementById("form__close")
 
 close_button.addEventListener("click", () => {
+    form.reset()
     toggle_form()
 })

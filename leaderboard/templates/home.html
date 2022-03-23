@@ -17,7 +17,7 @@
     <div class="container">
         <ol id="leaderboard">
             {% for entry in entries %}
-            <li>{{ entry.username }} | {{ entry.solve_time }}</li>
+            <li class="entry_item">{{ entry.username}} | {{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</li>
             {% endfor %}
         </ol>
     </div>
@@ -26,7 +26,7 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col">
-                    <div type="reset" id="form__close" class="btn btn-outline-danger btn-sm float-right">X</div>
+                    <input onClick="this.form.reset()" type="button" id="form__close" class="btn btn-outline-danger btn-sm float-right" value="X"></input>
                 </div>
             </div>
             <div class="row">
@@ -67,7 +67,6 @@
             </div>
         </form>
     </div>
-    <a href="https://www.google.com">test</a>
     <script src="{% static 'leaderboard/home.js' %}"></script>
     {% if form.errors %}
     <script>

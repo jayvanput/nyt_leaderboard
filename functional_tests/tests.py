@@ -6,6 +6,7 @@ from django.test import LiveServerTestCase
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 from datetime import date
 
@@ -42,17 +43,22 @@ class HomepageTests(LiveServerTestCase):
         username_field = self.browser.find_element_by_id("id_username")
         username_field.send_keys("alice1")
         hour_field = self.browser.find_element_by_id("id_hours")
+        hour_field.clear()
         hour_field.send_keys("0")
         minute_field = self.browser.find_element_by_id("id_minutes")
+        minute_field.clear()
         minute_field.send_keys("20")
         second_field = self.browser.find_element_by_id("id_seconds")
-        second_field.send_keys("5\n")
+        second_field.clear()
+        second_field.send_keys("5")
 
         # She clicks on the submit button and is redirected back to the page.
+        submit_btn = self.browser.find_element_by_id("form__submit")
+        submit_btn.click()
 
         # She can see her time has now been added to the leaderboard.
         leaderboard = self.browser.find_element_by_id("leaderboard")
-        rows = leaderboard.find_elements_by_tag_name("li")
-        self.assertIn("alice1 | 1205", [row.text for row in rows])
+        rows = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item")
+        self.assertIn("alice1 | 00:20:05", [row.text for row in rows])
 
         # Satisfied with her time today, she closes the site.

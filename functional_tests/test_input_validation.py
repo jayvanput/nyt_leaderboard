@@ -30,7 +30,21 @@ class HomepageTests(LiveServerTestCase):
         error = self.browser.find_element_by_id("form__error")
         self.assertEqual(error.text, "Invalid time")
 
-        # She then correctly inputs her username with a solve time and hits submit.
+        # She then inputs her solve time and hits submit.
+        hour_field = self.browser.find_element_by_id("id_hours")
+        hour_field.clear()
+        hour_field.send_keys("0")
+        minute_field = self.browser.find_element_by_id("id_minutes")
+        minute_field.clear()
+        minute_field.send_keys("20")
+        second_field = self.browser.find_element_by_id("id_seconds")
+        second_field.clear()
+        second_field.send_keys("5")
+
+        submit_button = self.browser.find_element_by_id("form__submit")
+        submit_button.click()
 
         # She sees her new username and score in the leaderboard.
-        self.fail("Finish the test!")
+        leaderboard = self.browser.find_element_by_id("leaderboard")
+        rows = leaderboard.find_elements(by="tag name", value="li")
+        self.assertIn("alice1 | 00:20:05", [row.text for row in rows])

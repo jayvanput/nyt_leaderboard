@@ -15,6 +15,7 @@ def home_page(request):
         entry = EntryForm(request.POST)
         entries = Entry.objects.all()
         if entry.is_valid():
+            entry.save()
             return redirect("/")
     else:
         entry = EntryForm()
@@ -26,7 +27,6 @@ def post_time(request):
         entry = EntryForm(request.POST)
         entries = Entry.objects.all()
         if entry.is_valid():
-            print("good_form")
             return redirect("/")
         else:
             return render(request, "home.html", context={"entries": entries, "form": entry})
