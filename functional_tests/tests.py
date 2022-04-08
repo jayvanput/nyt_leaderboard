@@ -58,7 +58,8 @@ class HomepageTests(LiveServerTestCase):
 
         # She can see her time has now been added to the leaderboard.
         leaderboard = self.browser.find_element_by_id("leaderboard")
-        rows = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item")
-        self.assertIn("alice1 | 00:20:05", [row.text for row in rows])
-
+        users = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__user")
+        times = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__time")
+        self.assertIn("alice1", [user.text for user in users])
+        self.assertIn("00:20:05", [time.text for time in times])
         # Satisfied with her time today, she closes the site.

@@ -7,6 +7,25 @@ Grayscale palette (increasing darkness):
 #333333
 #000000 
 */
+* {
+    box-sizing: border-box;
+}
+.leaderboard{
+    margin: auto;
+    width: 30%;
+}
+
+.header{
+    text-align: center;
+}
+
+.entry_item{
+    font-size: large;
+    display: flex;
+    justify-content: space-between;
+}
+
+
 form {
     box-sizing: border-box;
     width: 300px;

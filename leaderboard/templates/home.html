@@ -11,21 +11,28 @@
 </head>
 
 <body id="body" {% if form.errors %} class="shown" {% endif %}>
-    <h1>Leaderboard</h1>
-    <h2>{% now "l, F d Y" %}</h2>
-    <button id="show_form" class="btn btn-primary">Submit Time</button>
-    <div class="container">
-        <ol id="leaderboard">
-            {% for entry in entries %}
-            <li class="entry_item">{{ entry.username}} | {{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</li>
-            {% endfor %}
-        </ol>
+    <div class="leaderboard">
+        <div class="header">
+            <h1>Leaderboard</h1>
+            <h2>{% now "l, F d Y" %}</h2>
+            <button id="show_form" class="btn btn-primary">Submit Time</button>
+        </div>
+        <div class="container">
+            <ol id="leaderboard">
+                {% for entry in entries %}  
+                <div class="entry_item">
+                    <li class="entry_item__user">{{ entry.username }}</li>
+                    <div class="entry_item__time">{{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</div>
+                </div>
+                {% endfor %}
+            </ol>
+        </div>
     </div>
-    <div class="container">
-        <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
-            {% csrf_token %}
-            <div class="row">
-                <div class="col">
+        <div class="container">
+            <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
                     <input onClick="this.form.reset()" type="button" id="form__close" class="btn btn-outline-danger btn-sm float-right" value="X"></input>
                 </div>
             </div>
@@ -75,8 +82,8 @@
         time_inputs_lst.forEach(element => {
             element.style.border = "1px solid red"
         });
-
-    </script>
+        
+        </script>
     {% endif %}
 
 </body>

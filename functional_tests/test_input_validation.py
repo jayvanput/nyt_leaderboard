@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
+from selenium.webdriver.common.by import By
 
 class HomepageTests(LiveServerTestCase):
 
@@ -46,5 +46,7 @@ class HomepageTests(LiveServerTestCase):
 
         # She sees her new username and score in the leaderboard.
         leaderboard = self.browser.find_element_by_id("leaderboard")
-        rows = leaderboard.find_elements(by="tag name", value="li")
-        self.assertIn("alice1 | 00:20:05", [row.text for row in rows])
+        users = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__user")
+        times = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__time")
+        self.assertIn("alice1", [user.text for user in users])
+        self.assertIn("00:20:05", [time.text for time in times])

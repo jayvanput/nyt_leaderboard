@@ -3,3 +3,4 @@
 chromedriver.exe
 TODO
 geckodriver.log
+db.sqlite3
