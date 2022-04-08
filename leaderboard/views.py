@@ -13,22 +13,10 @@ def home_page(request):
     entries = Entry.objects.all()
     if request.method == "POST":
         entry = EntryForm(request.POST)
-        entries = Entry.objects.all()
         if entry.is_valid():
             entry.save()
             return redirect("/")
     else:
         entry = EntryForm()
-    return render(request, "home.html", context={"entries": entries, "form": entry})
-
-
-def post_time(request):
-    if request.method == "POST":
-        entry = EntryForm(request.POST)
-        entries = Entry.objects.all()
-        if entry.is_valid():
-            return redirect("/")
-        else:
-            return render(request, "home.html", context={"entries": entries, "form": entry})
-    entry = EntryForm()
+    entries = Entry.objects.all()
     return render(request, "home.html", context={"entries": entries, "form": entry})
