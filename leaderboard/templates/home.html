@@ -28,52 +28,50 @@
             </ol>
         </div>
     </div>
-        <div class="container">
-            <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col">
-                    <input onClick="this.form.reset()" type="button" id="form__close" class="btn btn-outline-danger btn-sm float-right" value="X"></input>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col form__input">
-                    <label for="{{ form.username.id_for_label }}">Username</label>
-                    {{ form.username }}
-                </div>
-            </div>
-            <div class="row" id="form__time">
-                <div class="col form__input">
-                    <label for="{{ form.hours.id_for_label }}">H</label>
-                    {{ form.hours }}
-                </div>
-                <div class="seperator"><span>:</span></div>
-                <div class="col form__input">
-                    <label for="{{ form.minutes.id_for_label }}">M</label>
-                    {{ form.minutes }}
-                </div>
-                <div class="seperator"><span>:</span></div>
-                <div class="col form__input">
-                    <label for="{{ form.seconds.id_for_label }}">S</label>
-                    {{ form.seconds }}
-                </div>
-            </div>
+        <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
+            {% csrf_token %}
             <div class="row">
                 <div class="col">
-                    <div>
-                        {% for error in form.non_field_errors %}
-                        <div id="form__error">
-                            {{ error }}
-                        </div>
-                        {% endfor %}
+                <input onClick="this.form.reset()" type="button" id="form__close" class="btn btn-outline-danger btn-sm float-right" value="X"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form__input">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+            </div>
+        </div>
+        <div class="row" id="form__time">
+            <div class="col form__input">
+                <label for="{{ form.hours.id_for_label }}">H</label>
+                {{ form.hours }}
+            </div>
+            <div class="seperator"><span>:</span></div>
+            <div class="col form__input">
+                <label for="{{ form.minutes.id_for_label }}">M</label>
+                {{ form.minutes }}
+            </div>
+            <div class="seperator"><span>:</span></div>
+            <div class="col form__input">
+                <label for="{{ form.seconds.id_for_label }}">S</label>
+                {{ form.seconds }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    {% for error in form.non_field_errors %}
+                    <div id="form__error">
+                        {{ error }}
                     </div>
-                </div>
-                <div class="col">
-                    <button id="form__submit" class="btn btn-primary float-right" type="submit">Submit</button>
+                    {% endfor %}
                 </div>
             </div>
-        </form>
-    </div>
+            <div class="col">
+                <button id="form__submit" class="btn btn-primary float-right" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
     <script src="{% static 'leaderboard/home.js' %}"></script>
     {% if form.errors %}
     <script>

@@ -18,5 +18,5 @@ def home_page(request):
             return redirect("/")
     else:
         entry = EntryForm()
-    entries = Entry.objects.all()
+    entries = Entry.objects.all().order_by("hours","minutes","seconds","username")
     return render(request, "home.html", context={"entries": entries, "form": entry})

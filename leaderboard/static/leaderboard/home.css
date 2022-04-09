@@ -12,7 +12,7 @@ Grayscale palette (increasing darkness):
 }
 .leaderboard{
     margin: auto;
-    width: 30%;
+    width: 25%;
 }
 
 .header{
@@ -23,10 +23,11 @@ Grayscale palette (increasing darkness):
     font-size: large;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid #999999;
+    padding: 2%;
 }
 
-
-form {
+#time_form {
     box-sizing: border-box;
     width: 300px;
     height: 305px;
@@ -39,6 +40,10 @@ form {
     justify-content: space-around;
     /* POSITION */
     margin: auto;
+    position: fixed;
+    top:20%;
+    left:0;
+    right:0;
     /* COLOR */
     background-color: white;
 }
@@ -47,7 +52,7 @@ form {
     margin-bottom: 0px;
 }
 
-form.shown {
+#time_form.shown {
     display:flex;
 }
 
