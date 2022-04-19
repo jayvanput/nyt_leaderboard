@@ -1,15 +1,15 @@
 from django.test import TestCase
-from django.urls import resolve
+from django.urls import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 
-from leaderboard.views import home_page
+from leaderboard.views import home_page, past_leaderboards
 
 import re
 # Create your tests here.
 
 
-class HomePageTest(TestCase):
+class ViewTest(TestCase):
 
     @staticmethod
     def remove_csrf(html_code):
@@ -34,6 +34,12 @@ class HomePageTest(TestCase):
 
     def test_POST_redirects_to_current_page(self):
         response = self.client.post(
-            "/post_time/", data={"username": "alice", "hours": "0", "minutes": "10", "seconds": "5"})
-        print(response)
+            "/", data={"username": "alice", "hours": "0", "minutes": "10", "seconds": "5"})
         self.assertRedirects(response, "/")
+
+    def test_other_date_uses_correct_template(self):
+        response=self.client.get("/2022/04/18")
+        self.assertTemplateUsed(response, "past.html")
+
+    def test_todays_date_redirects_to_homepage(self):
+        

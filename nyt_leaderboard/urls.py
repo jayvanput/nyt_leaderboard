@@ -19,5 +19,6 @@ from leaderboard import views
 
 urlpatterns = [
     path("", views.home_page, name="home"),
+    path("<int:year>/<int:month>/<int:day>", views.past_leaderboards, name="past"),
     path('admin/', admin.site.urls),
 ]

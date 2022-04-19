@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from datetime import date
 
 
-class HomepageTests(LiveServerTestCase):
+class PageTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox(

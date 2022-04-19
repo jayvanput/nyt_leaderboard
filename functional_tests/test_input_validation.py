@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-class HomepageTests(LiveServerTestCase):
+class ValidationTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox(
