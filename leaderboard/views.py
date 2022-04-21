@@ -5,12 +5,11 @@ from django.shortcuts import render, redirect
 
 from leaderboard.forms import EntryForm
 from leaderboard.models import Entry
-from datetime import date
+import datetime
 # Create your views here.
 
 
 def home_page(request):
-
     entries = Entry.objects.all()
     if request.method == "POST":
         entry = EntryForm(request.POST)
@@ -23,7 +22,9 @@ def home_page(request):
     return render(request, "home.html", context={"entries": entries, "form": entry})
 
 def past_leaderboards(request, year, month, day):
-    dates = {"year": year, "month" :month, "day": day}
-    entries = Entry.objects.filter(created__year=year,created__month=month,created__day=day)
-    entry = EntryForm()
-    return render(request, "past.html", context={"entries": entries, "form": entry,"dates":dates})
+    page_date = datetime.date(year, month, day)
+    today = datetime.date.today()
+    if page_date == today:
+        return redirect("/")
+    entries = Entry.objects.filter(created__year=page_date.year,created__month=page_date.month,created__day=page_date.day)
+    return render(request, "past.html", context={"entries": entries, "dates":page_date})

@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from leaderboard.views import home_page, past_leaderboards
 
 import re
+import datetime
 # Create your tests here.
 
 
@@ -28,9 +29,8 @@ class ViewTest(TestCase):
 
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
-        response = home_page(request)
-        expected_html = render_to_string("home.html", request=request)
-        self.assertEqualExceptCSRF(response.content.decode(), expected_html)
+        response = self.client.get("/")
+        self.assertTemplateUsed(response, "home.html")
 
     def test_POST_redirects_to_current_page(self):
         response = self.client.post(
@@ -42,4 +42,6 @@ class ViewTest(TestCase):
         self.assertTemplateUsed(response, "past.html")
 
     def test_todays_date_redirects_to_homepage(self):
-        
+        today = datetime.date.today()
+        response = self.client.get(f"/{today.year}/{today.month}/{today.day}",follow=True)
+        self.assertTemplateUsed(response, "home.html")
