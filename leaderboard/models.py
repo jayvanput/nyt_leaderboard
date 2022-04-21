@@ -13,3 +13,6 @@ class Entry(models.Model):
     minutes = models.IntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(59)])
     seconds = models.IntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(59)])
     created = models.DateField(default=date.today())
+
+    def __str__(self):
+        return f"{self.created}: {self.username}"
