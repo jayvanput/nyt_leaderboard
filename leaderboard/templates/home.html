@@ -1,89 +1,9 @@
-{% load static %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block date %}
+{% now "l, F d Y" %}
+{% endblock %}
 
-<head>
-    <title>NYTimes Crossword Leaderboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'leaderboard/home.css' %}">
-</head>
-
-<body id="body" {% if form.errors %} class="shown" {% endif %}>
-    <div class="leaderboard">
-        <div class="header">
-            <h1>Leaderboard</h1>
-            <h2>{% now "l, F d Y" %}</h2>
-            <button id="show_form" class="btn btn-primary">Submit Time</button>
-        </div>
-        <div class="container">
-            <ol id="leaderboard">
-                {% for entry in entries %}  
-                <div class="entry_item">
-                    <li class="entry_item__user">{{ entry.username }}</li>
-                    <div class="entry_item__time">{{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</div>
-                </div>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-        <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
-            {% csrf_token %}
-            <div class="row">
-                <div class="col">
-                <input onClick="this.form.reset()" type="button" id="form__close" class="btn btn-outline-danger btn-sm float-right" value="X"></input>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col form__input">
-                <label for="{{ form.username.id_for_label }}">Username</label>
-                {{ form.username }}
-            </div>
-        </div>
-        <div class="row" id="form__time">
-            <div class="col form__input">
-                <label for="{{ form.hours.id_for_label }}">H</label>
-                {{ form.hours }}
-            </div>
-            <div class="seperator"><span>:</span></div>
-            <div class="col form__input">
-                <label for="{{ form.minutes.id_for_label }}">M</label>
-                {{ form.minutes }}
-            </div>
-            <div class="seperator"><span>:</span></div>
-            <div class="col form__input">
-                <label for="{{ form.seconds.id_for_label }}">S</label>
-                {{ form.seconds }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div>
-                    {% for error in form.non_field_errors %}
-                    <div id="form__error">
-                        {{ error }}
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col">
-                <button id="form__submit" class="btn btn-primary float-right" type="submit">Submit</button>
-            </div>
-        </div>
-    </form>
-    <script src="{% static 'leaderboard/home.js' %}"></script>
-    {% if form.errors %}
-    <script>
-        let time_inputs = document.getElementsByClassName("time_input")
-        let time_inputs_lst = [...time_inputs]
-        time_inputs_lst.forEach(element => {
-            element.style.border = "1px solid red"
-        });
-        
-        </script>
-    {% endif %}
-
-</body>
-
-</html>
+{% block form %}
+<button id="show_form" class="btn btn-primary">Submit Time</button>
+{% endblock %}

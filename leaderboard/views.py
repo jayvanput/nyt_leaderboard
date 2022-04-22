@@ -19,7 +19,13 @@ def home_page(request):
     else:
         entry = EntryForm()
     entries = Entry.objects.all().order_by("hours","minutes","seconds","username")
-    return render(request, "home.html", context={"entries": entries, "form": entry})
+    
+    today = datetime.date.today()
+    yesterday = today - datetime.timedelta(days=1)
+
+    dates = {"yesterday": yesterday.strftime("%Y/%m/%d")}
+
+    return render(request, "home.html", context={"entries": entries, "form": entry, "dates":dates})
 
 def past_leaderboards(request, year, month, day):
     page_date = datetime.date(year, month, day)
@@ -27,4 +33,13 @@ def past_leaderboards(request, year, month, day):
     if page_date == today:
         return redirect("/")
     entries = Entry.objects.filter(created__year=page_date.year,created__month=page_date.month,created__day=page_date.day)
-    return render(request, "past.html", context={"entries": entries, "dates":page_date})
+
+    yesterday = page_date - datetime.timedelta(days=1)
+    tomorrow = page_date + datetime.timedelta(days=1)
+
+    dates = {"today": page_date.strftime("%A, %B %d %Y")}
+    dates["yesterday"] = yesterday.strftime("%Y/%m/%d")
+    dates["tomorrow"] = tomorrow.strftime("%Y/%m/%d")
+
+
+    return render(request, "past.html", context={"entries": entries, "dates":dates})

@@ -19,6 +19,11 @@ Grayscale palette (increasing darkness):
     text-align: center;
 }
 
+nav{
+    display: flex;
+    justify-content: space-between;
+}
+
 .entry_item{
     font-size: large;
     display: flex;
@@ -71,4 +76,10 @@ body.shown{
 
 #form__error{
     color: red;
+}
+
+#leaderboard{
+    padding: 0;
+    width: 80%;
+    margin: auto;
 }

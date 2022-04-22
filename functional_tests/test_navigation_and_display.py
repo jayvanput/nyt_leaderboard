@@ -1,5 +1,6 @@
 from asyncio import exceptions
 from cmath import exp
+from lib2to3.pgen2 import driver
 from multiprocessing.connection import wait
 from time import sleep
 from django.test import LiveServerTestCase
@@ -8,7 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-from datetime import date
+import datetime
 
 
 class PageTests(LiveServerTestCase):
@@ -49,7 +50,6 @@ class PageTests(LiveServerTestCase):
         times = [time.text for time in times]
         return users, times
 
-
     def test_can_input_new_entry(self):
         # Alice learns about a new NYT leaderboard app and checks it out.
         self.browser.get(self.live_server_url)
@@ -61,7 +61,7 @@ class PageTests(LiveServerTestCase):
 
         # She sees a leaderboard with today's date that already has some users and times in it.
         header_text = self.browser.find_element_by_tag_name("h2").text
-        today_text = date.today().strftime("%A, %B %d %Y")
+        today_text = datetime.date.today().strftime("%A, %B %d %Y")
         self.assertIn(today_text, header_text)
 
         # She sees a button to add a new entry.
@@ -75,7 +75,6 @@ class PageTests(LiveServerTestCase):
         self.assertIn("alice1", users)
         self.assertIn("00:20:05", times)
         # Satisfied with her time today, she closes the site.
-        
     
     def test_leaderboard_shows_proper_order(self):
         # Alice goes to input her time for today's leaderboard.
@@ -106,3 +105,28 @@ class PageTests(LiveServerTestCase):
         self.assertEqual("Bob2",new_users[2])
 
         # Satisfied with time, she closes the site.
+
+    def test_user_can_navigate_pages_with_buttons(self):
+
+        # Alice goes to the website and is brought to the homepage.
+        self.browser.get(self.live_server_url)
+
+        # She wants to check her score from yesterday, so she uses the arrow buttons to go back 1 day.
+        yesterday_date = datetime.date.today() - datetime.timedelta(days=1)
+        yesterday_date_str = yesterday_date.strftime("%Y/%m/%d")
+
+        self.browser.find_element_by_id("nav__prev").click()
+        self.browser.implicitly_wait(3)
+        self.assertIn(yesterday_date_str,self.browser.current_url)
+
+        # She also want to see how she did on this day last week, so she uses the date picker to go back.
+        last_week_date = datetime.date.today() - datetime.timedelta(days=7)
+        last_week_date_str = last_week_date.strftime("%Y/%m/%d")
+
+        date_picker = self.browser.find_element_by_id("nav__date")
+        date_picker.send_keys(last_week_date_str)
+        self.browser.implicitly_wait(3)
+        self.assertEqual(yesterday_date_str,self.browser.current_url)
+
+        # Satified, she closes the site.
+        self.fail("Finish the test")
