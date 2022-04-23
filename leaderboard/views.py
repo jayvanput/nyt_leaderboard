@@ -10,6 +10,7 @@ import datetime
 
 
 def home_page(request):
+    today = datetime.date.today()
     entries = Entry.objects.all()
     if request.method == "POST":
         entry = EntryForm(request.POST)
@@ -18,7 +19,7 @@ def home_page(request):
             return redirect("/")
     else:
         entry = EntryForm()
-    entries = Entry.objects.all().order_by("hours","minutes","seconds","username")
+    entries = Entry.objects.filter(created__year=today.year,created__month=today.month,created__day=today.day).order_by("hours","minutes","seconds","username")
     
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=1)
