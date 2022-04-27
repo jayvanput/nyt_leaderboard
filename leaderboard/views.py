@@ -25,6 +25,7 @@ def home_page(request):
     yesterday = today - datetime.timedelta(days=1)
 
     dates = {"yesterday": yesterday.strftime("%Y/%m/%d")}
+    dates["today_input"] = today.strftime("%Y-%m-%d")
 
     return render(request, "home.html", context={"entries": entries, "form": entry, "dates":dates})
 
@@ -41,6 +42,14 @@ def past_leaderboards(request, year, month, day):
     dates = {"today": page_date.strftime("%A, %B %d %Y")}
     dates["yesterday"] = yesterday.strftime("%Y/%m/%d")
     dates["tomorrow"] = tomorrow.strftime("%Y/%m/%d")
+    dates["today_input"] = today.strftime("%Y-%m-%d")
 
 
     return render(request, "past.html", context={"entries": entries, "dates":dates})
+
+def date_picker(request):
+    print(request.POST.get("nav__date"))
+
+    picked_date = datetime.datetime.strptime(request.POST.get("nav__date"), "%Y-%m-%d")
+
+    return redirect(f"{picked_date.year}/{picked_date.month}/{picked_date.day}")

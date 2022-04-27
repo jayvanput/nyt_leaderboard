@@ -7,21 +7,29 @@
     <title>NYTimes Crossword Leaderboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'leaderboard/base.css' %}">
 </head>
 
 <body id="body" {% if form.errors %} class="shown" {% endif %}>
     <div class="leaderboard">
+        <nav id="top_nav">
+            <h2>Leaderboard</h2>
+            <form method="POST" action="/date_picker" id="nav__form">
+                {% csrf_token %}
+                <input type="date" id="nav__date" name="nav__date" max="{{ dates.today_input }}" value="{{ dates.today_input }}">
+                <input type="submit" id="nav__submit" class="btn btn-outline-success"value="Go"/>
+            </form>
+        </nav>
         <div class="header">
-            <h1>Leaderboard</h1>
-            <nav>
+            <nav id="nav">
                 <div class="page-item">
                     <a id="nav__prev" href="/{{ dates.yesterday }}" class="page-link">
                         <span class="sr-only">Previous</span>
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </div>
-                <h2>{% block date %}{% endblock %}</h2>
+                <h4>{% block date %}{% endblock %}</h4>
                 <div class="page-item {% if not dates.tomorrow %} disabled {% endif %}">
                     <a id="nav__next"  href="/{{ dates.tomorrow }}" class="page-link">
                         <span class="sr-only">Previous</span>
@@ -29,17 +37,15 @@
                     </a>
                 </div>
             </nav>
-            {% block form %}{% endblock %}
-        </div>
-        <div class="container">
-            <ol id="leaderboard">
-                {% for entry in entries %}  
-                <div class="entry_item">
-                    <li class="entry_item__user">{{ entry.username }}</li>
-                    <div class="entry_item__time">{{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</div>
-                </div>
-                {% endfor %}
-            </ol>
+            <button id="show_form" class="btn btn-primary {% if dates.tomorrow %} disabled {% endif %}" {% if dates.tomorrow %} disabled {% endif %}>Submit Time</button>
+        </div>            
+        <div id="entries">
+            {% for entry in entries %}
+            <div class="entry_item">
+                <div class="entry_item__user">{{ forloop.counter }}. {{ entry.username }}</div>
+                <div class="entry_item__time">{{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</div>
+            </div>
+            {% endfor %}
         </div>
     </div>
     <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
@@ -57,17 +63,17 @@
         </div>
         <div class="row" id="form__time">
             <div class="col form__input">
-                <label for="{{ form.hours.id_for_label }}">H</label>
+                <label for="{{ form.hours.id_for_label }}">Hour</label>
                 {{ form.hours }}
             </div>
             <div class="seperator"><span>:</span></div>
             <div class="col form__input">
-                <label for="{{ form.minutes.id_for_label }}">M</label>
+                <label for="{{ form.minutes.id_for_label }}">Min</label>
                 {{ form.minutes }}
             </div>
             <div class="seperator"><span>:</span></div>
             <div class="col form__input">
-                <label for="{{ form.seconds.id_for_label }}">S</label>
+                <label for="{{ form.seconds.id_for_label }}">Sec</label>
                 {{ form.seconds }}
             </div>
         </div>

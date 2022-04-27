@@ -5,9 +5,11 @@ from multiprocessing.connection import wait
 from time import sleep
 from django.test import LiveServerTestCase
 import unittest
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 import datetime
 
@@ -106,7 +108,7 @@ class PageTests(LiveServerTestCase):
 
         # Satisfied with time, she closes the site.
 
-    def test_user_can_navigate_pages_with_buttons(self):
+    def test_user_can_navigate_with_buttons(self):
 
         # Alice goes to the website and is brought to the homepage.
         self.browser.get(self.live_server_url)
@@ -121,12 +123,14 @@ class PageTests(LiveServerTestCase):
 
         # She also want to see how she did on this day last week, so she uses the date picker to go back.
         last_week_date = datetime.date.today() - datetime.timedelta(days=7)
-        last_week_date_str = last_week_date.strftime("%Y/%m/%d")
+        last_week_date_str = last_week_date.strftime("%m/%d/%Y")
 
         date_picker = self.browser.find_element_by_id("nav__date")
         date_picker.send_keys(last_week_date_str)
+        submit_btn = self.browser.find_element_by_id("nav__submit")
+        submit_btn.click()
         self.browser.implicitly_wait(3)
-        self.assertEqual(yesterday_date_str,self.browser.current_url)
 
+        self.assertIn("date_picker",self.browser.current_url)
+    
         # Satified, she closes the site.
-        self.fail("Finish the test")
