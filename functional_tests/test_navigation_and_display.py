@@ -58,11 +58,11 @@ class PageTests(LiveServerTestCase):
 
         # She notices the page title mentions the leaderboard.
         self.assertIn("NYTimes Crossword Leaderboard", self.browser.title)
-        header_text = self.browser.find_element_by_tag_name("h1").text
+        header_text = self.browser.find_element_by_tag_name("h2").text
         self.assertIn("Leaderboard", header_text)
 
         # She sees a leaderboard with today's date that already has some users and times in it.
-        header_text = self.browser.find_element_by_tag_name("h2").text
+        header_text = self.browser.find_element_by_tag_name("h4").text
         today_text = datetime.date.today().strftime("%A, %B %d %Y")
         self.assertIn(today_text, header_text)
 
@@ -134,3 +134,6 @@ class PageTests(LiveServerTestCase):
         self.assertIn("date_picker",self.browser.current_url)
     
         # Satified, she closes the site.
+
+    def test_leaderboard_displays_medals(self):
+        pass

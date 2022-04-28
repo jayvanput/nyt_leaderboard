@@ -73,7 +73,6 @@ h1{
     border-radius: 5px;
     padding: 20px;
     /* DISPLAY */
-    display: none;
     flex-direction: column;
     justify-content: space-around;
     /* POSITION */
