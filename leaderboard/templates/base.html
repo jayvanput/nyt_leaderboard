@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'leaderboard/base.css' %}">
 </head>
 
-<body id="body" {% if form.errors %} class="shown" {% endif %}>
+<body id="body">
     <div class="leaderboard">
         <nav id="top_nav">
             <h2>Leaderboard</h2>
@@ -49,7 +49,7 @@
         </div>
     </div>
     <dialog id="dialog">
-        <form id="time_form" method="POST" {% if form.errors %} class="shown" {% endif %} action='{% url "home" %}'>
+        <form id="time_form" method="POST" action='{% url "home" %}'>
             {% csrf_token %}
             <div class="row">
                 <div class="col">
@@ -97,6 +97,9 @@
     <script src="{% static 'leaderboard/base.js' %}"></script>
     {% if form.errors %}
     <script>
+        let form_err = document.getElementById("dialog")
+        form_err.show();
+
         let time_inputs = document.getElementsByClassName("time_input")
         let time_inputs_lst = [...time_inputs]
         time_inputs_lst.forEach(element => {
