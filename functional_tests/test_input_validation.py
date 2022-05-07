@@ -1,12 +1,11 @@
-from lib2to3.pgen2 import driver
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-class ValidationTests(LiveServerTestCase):
+class ValidationTests(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox(
@@ -26,7 +25,6 @@ class ValidationTests(LiveServerTestCase):
         modal_btn.click()
 
         username_field = self.browser.find_element_by_id("id_username")
-        WebDriverWait(self.browser,3).until(EC.presence_of_element_located((By.ID,"id_username")))
         username_field.send_keys("alice1")
 
         submit_button = self.browser.find_element_by_id("form__submit")
@@ -52,9 +50,8 @@ class ValidationTests(LiveServerTestCase):
         submit_button.click()
 
         # She sees her new username and score in the leaderboard.
-        leaderboard = self.browser.find_element_by_id("leaderboard")
+        leaderboard = self.browser.find_element_by_id("entries")
         users = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__user")
         times = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__time")
-        self.assertIn("alice1", [user.text for user in users])
+        self.assertIn("1. alice1", [user.text for user in users])
         self.assertIn("00:20:05", [time.text for time in times])
-        input("test")

@@ -1,23 +1,19 @@
-from asyncio import exceptions
-from cmath import exp
-from lib2to3.pgen2 import driver
-from multiprocessing.connection import wait
 from time import sleep
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 
-from selenium import webdriver
+from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-
+from selenium.webdriver.support import expected_conditions as EC
 import datetime
+import time
 
-
-class PageTests(LiveServerTestCase):
+class PageTests(StaticLiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox(
+        self.browser = WebDriver(
             executable_path="D:\\Projects\\NYT Leaderboard Website\\geckodriver.exe")
         self.browser.implicitly_wait(3)
 
@@ -27,6 +23,8 @@ class PageTests(LiveServerTestCase):
     def input_time(self,username,time_str):
         
         hours, minutes, seconds = time_str.split(":")
+
+        self.browser.find_element_by_id("show_form").click()
 
         username_field = self.browser.find_element_by_id("id_username")
         username_field.send_keys(username)
@@ -44,8 +42,9 @@ class PageTests(LiveServerTestCase):
         submit_btn = self.browser.find_element_by_id("form__submit")
         submit_btn.click()
 
+        self.browser.implicitly_wait(3)
         # Return the updated user & time lists.
-        leaderboard = self.browser.find_element_by_id("leaderboard")
+        leaderboard = self.browser.find_element_by_id("entries")
         users = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__user")
         times = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__time")
         users = [user.text for user in users]
@@ -74,7 +73,7 @@ class PageTests(LiveServerTestCase):
         users, times = self.input_time("alice1","00:20:05")
 
         # She can see her time has now been added to the leaderboard.
-        self.assertIn("alice1", users)
+        self.assertIn("1. alice1", users)
         self.assertIn("00:20:05", times)
         # Satisfied with her time today, she closes the site.
     
@@ -88,23 +87,23 @@ class PageTests(LiveServerTestCase):
         # She also notices her friend Charlie's time of (00:07:08) is also on the scoreboard.
         users, times = self.input_time("Charlie3","00:07:08")
         
-        self.assertIn("Bob2",users)
+        self.assertIn("2. Bob2",users)
         self.assertIn("00:15:42",times)
-        self.assertIn("Charlie3",users)
+        self.assertIn("1. Charlie3",users)
         self.assertIn("00:07:08",times)
         
         # She sees Charlie is first on the leaderboard and Bob is second.
-        self.assertEqual("Charlie3",users[0])
-        self.assertEqual("Bob2",users[1])
+        self.assertEqual("1. Charlie3",users[0])
+        self.assertEqual("2. Bob2",users[1])
 
         # She inputs her time (00:11:55) for today's puzzle.
         new_users, new_times = self.input_time("Alice1","00:11:55")
         self.browser.implicitly_wait(3)
 
         # After inputting her time, she sees that she is now in second and Bob has moved to third.
-        self.assertEqual("Charlie3",new_users[0])
-        self.assertEqual("Alice1",new_users[1])
-        self.assertEqual("Bob2",new_users[2])
+        self.assertEqual("1. Charlie3",new_users[0])
+        self.assertEqual("2. Alice1",new_users[1])
+        self.assertEqual("3. Bob2",new_users[2])
 
         # Satisfied with time, she closes the site.
 

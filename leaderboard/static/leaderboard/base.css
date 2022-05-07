@@ -73,6 +73,7 @@ h1{
     border-radius: 5px;
     padding: 20px;
     /* DISPLAY */
+    display:flex;
     flex-direction: column;
     justify-content: space-around;
     /* POSITION */
@@ -87,10 +88,6 @@ h1{
 
 .form_label{
     margin-bottom: 0px;
-}
-
-#time_form.shown {
-    display:flex;
 }
 
 body.shown{
