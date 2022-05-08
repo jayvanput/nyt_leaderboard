@@ -18,8 +18,8 @@ from django.urls import path
 from leaderboard import views
 
 urlpatterns = [
-    path("", views.home_page, name="home"),
-    path("<int:year>/<int:month>/<int:day>", views.past_leaderboards, name="past"),
+    path("", views.HomePage.as_view(), name="home"),
+    path("<int:year>/<int:month>/<int:day>", views.PastPage.as_view(), name="past"),
     path("date_picker", views.date_picker, name="date_picker"),
     path('admin/', admin.site.urls),
 ]

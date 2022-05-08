@@ -73,7 +73,7 @@ class PageTests(StaticLiveServerTestCase):
         users, times = self.input_time("alice1","00:20:05")
 
         # She can see her time has now been added to the leaderboard.
-        self.assertIn("1. alice1", users)
+        self.assertIn("🥇. alice1", users)
         self.assertIn("00:20:05", times)
         # Satisfied with her time today, she closes the site.
     

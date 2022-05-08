@@ -53,5 +53,5 @@ class ValidationTests(StaticLiveServerTestCase):
         leaderboard = self.browser.find_element_by_id("entries")
         users = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__user")
         times = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__time")
-        self.assertIn("1. alice1", [user.text for user in users])
+        self.assertIn("🥇. alice1", [user.text for user in users])
         self.assertIn("00:20:05", [time.text for time in times])

@@ -3,7 +3,7 @@ from django.urls import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 
-from leaderboard.views import home_page, past_leaderboards
+from leaderboard import views
 from leaderboard.models import Entry
 import re
 import datetime
@@ -25,7 +25,7 @@ class HomeViewTest(TestCase):
 
     def test_root_url_resolves_to_home_page_view(self):
         home_view = resolve("/")
-        self.assertEqual(home_view.func, home_page)
+        self.assertEqual(home_view.func.view_class, views.HomePage)
 
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
