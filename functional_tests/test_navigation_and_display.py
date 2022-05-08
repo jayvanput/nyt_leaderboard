@@ -41,8 +41,8 @@ class PageTests(StaticLiveServerTestCase):
         # POST form
         submit_btn = self.browser.find_element_by_id("form__submit")
         submit_btn.click()
-
         self.browser.implicitly_wait(3)
+
         # Return the updated user & time lists.
         leaderboard = self.browser.find_element_by_id("entries")
         users = leaderboard.find_elements(by=By.CLASS_NAME,value="entry_item__user")
@@ -77,7 +77,7 @@ class PageTests(StaticLiveServerTestCase):
         self.assertIn("00:20:05", times)
         # Satisfied with her time today, she closes the site.
     
-    def test_leaderboard_shows_proper_order(self):
+    def test_leaderboard_shows_proper_order_with_medals(self):
         # Alice goes to input her time for today's leaderboard.
         self.browser.get(self.live_server_url)
 
@@ -87,25 +87,29 @@ class PageTests(StaticLiveServerTestCase):
         # She also notices her friend Charlie's time of (00:07:08) is also on the scoreboard.
         users, times = self.input_time("Charlie3","00:07:08")
         
-        self.assertIn("2. Bob2",users)
+        self.assertIn("🥈. Bob2",users)
         self.assertIn("00:15:42",times)
-        self.assertIn("1. Charlie3",users)
+        self.assertIn("🥇. Charlie3",users)
         self.assertIn("00:07:08",times)
         
         # She sees Charlie is first on the leaderboard and Bob is second.
-        self.assertEqual("1. Charlie3",users[0])
-        self.assertEqual("2. Bob2",users[1])
+        self.assertEqual("🥇. Charlie3",users[0])
+        self.assertEqual("🥈. Bob2",users[1])
 
-        # She inputs her time (00:11:55) for today's puzzle.
-        new_users, new_times = self.input_time("Alice1","00:11:55")
-        self.browser.implicitly_wait(3)
+        # She inputs her time (00:11:55) for today's puzzle and another time is inserted (00:54:22).
+        self.input_time("Alice1","00:11:55")
+        new_users, new_times = self.input_time("Debra","00:22:35")
+        new_users, new_times = self.input_time("Ezekiel","00:45:36")
 
         # After inputting her time, she sees that she is now in second and Bob has moved to third.
-        self.assertEqual("1. Charlie3",new_users[0])
-        self.assertEqual("2. Alice1",new_users[1])
-        self.assertEqual("3. Bob2",new_users[2])
+        self.assertEqual("🥇. Charlie3",new_users[0])
+        self.assertEqual("🥈. Alice1",new_users[1])
+        self.assertEqual("🥉. Bob2",new_users[2])
 
-        # Satisfied with time, she closes the site.
+        # A new time is added that is slower than all. Alice confirms it does not get a medal.
+        self.assertEqual("4. Debra",new_users[3])
+        self.assertEqual("00:22:35",new_times[3])
+
 
     def test_user_can_navigate_with_buttons(self):
 
@@ -133,6 +137,3 @@ class PageTests(StaticLiveServerTestCase):
         self.assertIn("date_picker",self.browser.current_url)
     
         # Satified, she closes the site.
-
-    def test_leaderboard_displays_medals(self):
-        pass

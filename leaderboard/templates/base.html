@@ -40,9 +40,9 @@
             <button id="show_form" class="btn btn-primary {% if dates.tomorrow %} disabled {% endif %}" {% if dates.tomorrow %} disabled {% endif %}>Submit Time</button>
         </div>            
         <div id="entries">
-            {% for entry in entries %}
+            {% for rank, entry in entries %}
             <div class="entry_item">
-                <div class="entry_item__user">{{ forloop.counter }}. {{ entry.username }}</div>
+                <div class="entry_item__user">{{ rank }}. {{ entry.username }}</div>
                 <div class="entry_item__time">{{ entry.hours|stringformat:"02d" }}:{{ entry.minutes|stringformat:"02d" }}:{{ entry.seconds|stringformat:"02d" }}</div>
             </div>
             {% endfor %}

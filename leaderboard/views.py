@@ -20,14 +20,21 @@ def home_page(request):
     else:
         entry = EntryForm()
     entries = Entry.objects.filter(created__year=today.year,created__month=today.month,created__day=today.day).order_by("hours","minutes","seconds","username")
-    
+
+    # Build medals
+    length_of_entries = len(entries)
+    if length_of_entries <=3:
+        medals = ["🥇","🥈","🥉"][0:length_of_entries]
+    else:
+        medals = ["🥇","🥈","🥉"] + [x for x in range(4,length_of_entries)]
+    entries_display = zip(medals, entries)
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=1)
 
     dates = {"yesterday": yesterday.strftime("%Y/%m/%d")}
     dates["today_input"] = today.strftime("%Y-%m-%d")
 
-    return render(request, "home.html", context={"entries": entries, "form": entry, "dates":dates})
+    return render(request, "home.html", context={"entries": entries_display, "medals":medals, "form": entry, "dates":dates})
 
 def past_leaderboards(request, year, month, day):
     page_date = datetime.date(year, month, day)
@@ -35,6 +42,14 @@ def past_leaderboards(request, year, month, day):
     if page_date == today:
         return redirect("/")
     entries = Entry.objects.filter(created__year=page_date.year,created__month=page_date.month,created__day=page_date.day)
+
+    # Build medals
+    length_of_entries = len(entries)
+    if length_of_entries <=3:
+        medals = ["🥇","🥈","🥉"][0:length_of_entries]
+    else:
+        medals = ["🥇","🥈","🥉"] + [x for x in range(4,length_of_entries)]
+    entries_display = zip(medals, entries)
 
     yesterday = page_date - datetime.timedelta(days=1)
     tomorrow = page_date + datetime.timedelta(days=1)
@@ -45,7 +60,7 @@ def past_leaderboards(request, year, month, day):
     dates["today_input"] = today.strftime("%Y-%m-%d")
 
 
-    return render(request, "past.html", context={"entries": entries, "dates":dates})
+    return render(request, "past.html", context={"entries": entries_display, "dates":dates})
 
 def date_picker(request):
     print(request.POST.get("nav__date"))
