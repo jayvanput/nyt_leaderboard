@@ -17,7 +17,7 @@
             <h2>Leaderboard</h2>
             <form method="POST" action="/date_picker" id="nav__form">
                 {% csrf_token %}
-                <input type="date" id="nav__date" name="nav__date" max="{{ dates.today_input }}" value="{{ dates.today_input }}">
+                <input type="date" id="nav__date" name="nav__date" max="{{ dates.page_date_str }}" value="{{ dates.page_date_str }}">
                 <input type="submit" id="nav__submit" class="btn btn-outline-success"value="Go"/>
             </form>
         </nav>
@@ -30,7 +30,7 @@
                     </a>
                 </div>
                 <h4>{% block date %}{% endblock %}</h4>
-                <div class="page-item {% if not dates.tomorrow %} disabled {% endif %}">
+                <div class="page-item {% if dates.tomorrow == '' %} disabled {% endif %}">
                     <a id="nav__next"  href="/{{ dates.tomorrow }}" class="page-link">
                         <span class="sr-only">Previous</span>
                         <span aria-hidden="true">&raquo;</span>
