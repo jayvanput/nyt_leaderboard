@@ -100,3 +100,10 @@ class PastPage(LeaderboardPage):
         self.context["dates"] = self.get_dates(page_date)
 
         return render(request, "past.html",context=self.context)
+
+def date_picker(request):
+    print(request.POST.get("nav__date"))
+
+    picked_date = datetime.datetime.strptime(request.POST.get("nav__date"), "%Y-%m-%d")
+
+    return redirect(f"{picked_date.year}/{picked_date.month}/{picked_date.day}") 
