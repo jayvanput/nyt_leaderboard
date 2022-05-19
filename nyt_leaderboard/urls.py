@@ -22,7 +22,7 @@ from django.urls import include
 urlpatterns = [
     path("", views.HomePage.as_view(), name="home"),
     path("<int:year>/<int:month>/<int:day>", views.PastPage.as_view(), name="past"),
-    path("auth/", include('authentication.urls')),
+    path("accounts/", include('authentication.urls')),
     path("date_picker", views.date_picker, name="date_picker"),
     path('admin/', admin.site.urls),
 ]

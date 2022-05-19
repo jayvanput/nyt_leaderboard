@@ -17,9 +17,16 @@
             <h2>Leaderboard</h2>
             <form method="POST" action="/date_picker" id="nav__form">
                 {% csrf_token %}
-                <input type="date" id="nav__date" name="nav__date" max="{{ dates.page_date_str }}" value="{{ dates.page_date_str }}">
+                <input type="date" id="nav__date" name="nav__date" max="{{ dates.today }}" value="{{ dates.page_date_str }}">
                 <input type="submit" id="nav__submit" class="btn btn-outline-success"value="Go"/>
+                {{ user_info }}
             </form>
+            {% if user.is_authenticated %}
+            <a id="login_href" class="btn btn-primary" href="/accounts/login/">{{ user.username }}</a>
+            {% else %}
+            <a id="login_href" class="btn btn-primary" href="/accounts/login/">Login</a>
+            {% endif %}
+            
         </nav>
         <div class="header">
             <nav id="nav">
